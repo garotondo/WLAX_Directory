@@ -4,6 +4,8 @@ library(dplyr)
 library(janitor)
 library(readxl)
 library(ggplot2)
+library(leaflet)
+library(maps)
 library(tidyverse)
 
 #Create a directory and load in the two datasets. Make sure they are in the
@@ -68,7 +70,7 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                   
                                   br(),
                                   
-                                  # Industry Input - input$industry (see Quantmod "period" argument")
+                                  # Industry Input - input$industry (see Quantmod "industry" argument")
                         
                                   selectInput("industry", "Industry:",
                                               c("Finance" = c("Finance", "Venture Capital & Private Equity"),
@@ -94,6 +96,7 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                                 "Music" = "Music",
                                                 "Sports" = "Coaching")),
                                   
+                                  # Concentration Input - input$industry (see Quantmod "concentration" argument")
                                   selectInput("concentration", "Concentration:",
                                               c("Economics" = "Economics",
                                                 "Government" = c("Government", "Political Science and Government"),
@@ -112,13 +115,114 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                                 "Computer Science" = "Computer Science",
                                                 "Neurobiology" = "Neurobiology",
                                                 "Sociology" = "Sociology",
-                                                "Musicology" = "Musicology"))
-                                                
-                                  br(),
-                                  hr(),
-                                  br(),
+                                                "Musicology" = "Musicology"))),
+                   
+                    ###################################
+                    # MAP PAGE
+                    ###################################                            
+                              
+                    tabPanel("Map",
+                             fluidPage(
+                                 titlePanel("Locations of Alumni Based in the United States"),
+                                 
+                                 hr(),
+                                 
+                                 leafletOutput("mymap"),
+                                 p(),
+                                 actionButton("recalc", "New points")
+                             )
+                             
+                             server <- function(input, output, session) {
+                                 
+                                 points <- eventReactive(input$recalc, {
+                                     cbind(rnorm(40) * 2 + 13, rnorm(40) + 48)
+                                 }, ignoreNULL = FALSE)
+                                 
+                                 output$mymap <- renderLeaflet({
+                                     leaflet() %>%
+                                         addProviderTiles(providers$Stamen.TonerLite,
+                                                          options = providerTileOptions(noWrap = TRUE)
+                                         ) %>%
+                                         addMarkers(data = points())
+                                 })
+                             }
                                   
-                                  
+                     ###################################
+                     # ABOUT PAGE
+                     ###################################   
+                             tabPanel("About",
+                                      titlePanel(h1("Fixing the Flaws of Networking: Creating an Accurate Alumni Directory for the Harvard Women's Lacrosse Program")),
+                                      
+                                      
+                                      hr(),
+                                      
+                                      # Overview Explanation
+                                      
+                                      h3("Overview"),
+                                      h4("'You're doing Harvard wrong if you're not networking.' - David Kane"),
+                                      h4("Networking is one of the most important skills an individual can develop at Harvard. 
+                                         Though academics are important, the people you know are what is going to help you ultimately 
+                                         land a job and launch a career after college. However this is the case, I found in my own job 
+                                         search that Harvard's alumni resources are out-of-date and unreliable. To solve this problem, 
+                                         I set out to develop an alumni directory - for the Harvard Women's Lacrosse Program.")
+                                      
+                                      # The br() function adds white space to the app.
+                                    
+                                      # Data Collection Explanation
+                                      
+                                      br(),
+                                      br(),
+                                      h3("Data Collection"), 
+                                      h4("To develop the directory, I used four sources of data: 1) an excel spreadsheet from 
+                                         the Harvard Varsit Club that included contact information; 2) Names of the Varsity 
+                                         Letterwinners of Harvard Women's Lacrosse; 3) House and Concentration information from 
+                                         the official Harvard Alumni Directory; and 4) Information from LinkedIn. The second, 
+                                         third, and fourth sources I personally researched and collected their data to put in an 
+                                         excel spreadsheet. I especially wanted to manually search individuals' LinkedIn accounts 
+                                         to ensure that they were accurate matches so that if the given emails (by the Varsity Club) 
+                                         were not accurate, then users would have the option to reach out to someone through LinkedIn.")
+                                      br(),
+                                      br(),
+                                      
+                                      # Search Page Explanation
+                                      
+                                      h3("Data Use: The Directory"),
+                                      h4("I used the data to create an interface, which was designed to allow for individuals to search 
+                                         women's lacrosse alums by Name (full, first, and last), Industry, and Concentration. The 
+                                         dashboard includes an interactive search table for the name search and drop down options for 
+                                         the Industry and Concentration searches"),
+                                      
+                                      br(),
+                                      br(),
+                                      
+                                      # Map Page Explanation
+                                      
+                                      h3("Data Use: Interactive Map"),
+                                      h4("This data was used to create an interactive map in which individuals could search locations 
+                                         where alums resided based on their LinkedIn profiles."),
+                                      
+                                      br(),
+                                      br(),
+                                      
+                                      
+                                      h3("About Me: Grace Rotondo"),
+                                      h4("I am a junior at Harvard College studying Psychology and Economics. Additionally, I am a 
+                                         member of the Women's Lacrosse Team, The Student-Athlete Advisory Committee, and Harvard 
+                                         Undergraduate Women in Business. Contact me at: grotondo@college.harvard.edu."),
+                                      
+                                      
+                                      br(),
+                                      hr(),
+                                      
+                                      # Repository Link
+                                      
+                                      h4(a("Github Repository", href="https://github.com/wsmiles000/Trumps-Tweets-Stock-Market")),
+                                      br()
+                                      
+                             )
+                    )
+                    
+                    
                                   
                                   
                                   
@@ -141,43 +245,6 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                       
                                       
                                       
-                                    
-                
-                
-                
-
-    # Application title
-    titlePanel("Old Faithful Geyser Data"),
-
-    # Sidebar with a slider input for number of bins 
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-           plotOutput("distPlot")
-        )
-    )
-)
-
-# Define server logic required to draw a histogram
-server <- function(input, output) {
-
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    })
-}
 
 # Run the application 
 shinyApp(ui = ui, server = server)

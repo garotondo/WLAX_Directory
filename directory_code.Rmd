@@ -11,16 +11,75 @@ library(dplyr)
 library(janitor)
 library(readxl)
 library(ggplot2)
+library(leaflet)
+library(purrr)
+library(maps)
+library(usmap)
+library(sf)
+library(fs)
 library(tidyverse)
-
-
+library(leaflet)
 ```
 
 ```{r}
-#Merge the datasets and get rid of repeat names.
-data <- full_join(alumnae, wlax, by = c('last_name', 'graduation_year', 'count'))
 
-data %>% 
-  select("Name", "First Name", "Maiden Name", "Last Name", "Graduation Year.x", )
+
+#Merge the datasets and split the industries. This is necessary so that
+#individuals within multiple industries can be searched  as an individual in one
+#of the industries (not in a pair).
+data <- full_join(alumnae, wlax, by = c('last_name', 'graduation_year', 'count')) %>% 
+  mutate(industry = str_split(industry, ","))
 ```
+
+```{r}
+#Using leaflet to create the map.
+mymap <- mapStates = map("state", fill = TRUE, plot = FALSE)
+leaflet(data = mapStates) %>% 
+  addTiles() %>%
+  addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
+```
+
+```{r}
+#Prep location points for the map. See how many people are in each location.
+area_points <- data %>% 
+  group_by(area) %>% 
+  count(area) %>% 
+  arrange(desc(n))
+```
+
+```{r}
+#Mark clusters on map
+leaflet(area_points) %>% 
+  addTiles() %>% 
+  addMarkers(
+  clusterOptions = markerClusterOptions(
+    showCoverageOnHover = TRUE
+  )
+)
+```
+
+
+
+
+
+
+```{r}
+#US map example 1
+plot_usmap(data = statepop, values = "pop_2015", color = "darkblue") + 
+  scale_fill_continuous(
+    low = "white", high = "darkblue", name = "Population (2015)", label = scales::comma
+  ) + theme(legend.position = "right")
+```
+
+```{r}
+#US map example 2
+plot_usmap(regions = "counties") + 
+  labs(title = "US Counties",
+       subtitle = "This is a blank map of the counties of the United States.") + 
+  theme(panel.background = element_rect(color = "black", fill = "lightblue"))
+```
+
+
+
+
 

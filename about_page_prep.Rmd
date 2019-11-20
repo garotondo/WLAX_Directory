@@ -1,0 +1,27 @@
+---
+title: "about_prep"
+author: "Grace Rotondo"
+date: "11/20/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview ##
+"You're doing Harvard wrong if you're not networking." - David Kane
+Networking is one of the most important skills an individual can develop at Harvard. Though academics are important, the people you know are what is going to help you ultimately land a job and launch a career after college. However this is the case, I found in my own job search that Harvard's alumni resources are out-of-date and unreliable. To solve this problem, I set out to develop an alumni directory - for the Harvard Women's Lacrosse Program. 
+
+## Data Collection ##
+To develop the directory, I used four sources of data: 1) an excel spreadsheet from the Harvard Varsit Club that included contact information; 2) Names of the Varsity Letterwinners of Harvard Women's Lacrosse; 3) House and Concentration information from the official Harvard Alumni Directory; and 4) Information from LinkedIn. The second, third, and fourth sources I personally researched and collected their data to put in an excel spreadsheet. I especially wanted to manually search individuals' LinkedIn accounts to ensure that they were accurate matches so that if the given emails (by the Varsity Club) were not accurate, then users would have the option to reach out to someone through LinkedIn. 
+
+## Data Use: The Directory ##
+
+I used the data to create an interface, which was designed to allow for individuals to search women's lacrosse alums by Name (full, first, and last), Industry, and Concentration. The dashboard includes an interactive search table for the name search and drop down options for the Industry and Concentration searches.
+
+## Data Use: Interactive Map ##
+This data was used to create an interactive map in which individuals could search locations where alums resided based on their LinkedIn profiles.
+
+## About Me: Grace Rotondo ##
+I am a junior at Harvard College studying Psychology and Economics. Additionally, I am a member of the Women's Lacrosse Team, The Student-Athlete Advisory Committee, and Harvard Undergraduate Women in Business. Contact me at: grotondo@college.harvard.edu.
