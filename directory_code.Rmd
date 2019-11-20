@@ -1,0 +1,26 @@
+---
+title: "Directory Code"
+author: "Grace Rotondo"
+date: "11/14/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(janitor)
+library(readxl)
+library(ggplot2)
+library(tidyverse)
+
+
+```
+
+```{r}
+#Merge the datasets and get rid of repeat names.
+data <- full_join(alumnae, wlax, by = c('last_name', 'graduation_year', 'count'))
+
+data %>% 
+  select("Name", "First Name", "Maiden Name", "Last Name", "Graduation Year.x", )
+```
+
