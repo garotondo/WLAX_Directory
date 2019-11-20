@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Overview ##
-"You're doing Harvard wrong if you're not networking." - David Kane
+"If you're not Networking, you're doing Harvard wrong." - David Kane
 Networking is one of the most important skills an individual can develop at Harvard. Though academics are important, the people you know are what is going to help you ultimately land a job and launch a career after college. However this is the case, I found in my own job search that Harvard's alumni resources are out-of-date and unreliable. To solve this problem, I set out to develop an alumni directory - for the Harvard Women's Lacrosse Program. 
 
 ## Data Collection ##

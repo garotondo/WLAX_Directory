@@ -8,7 +8,9 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
+library(readr)
 library(janitor)
+library(base)
 library(readxl)
 library(ggplot2)
 library(leaflet)
@@ -17,8 +19,8 @@ library(maps)
 library(usmap)
 library(sf)
 library(fs)
-library(tidyverse)
 library(leaflet)
+library(tidyverse)
 ```
 
 ```{r}
@@ -29,6 +31,22 @@ library(leaflet)
 #of the industries (not in a pair).
 data <- full_join(alumnae, wlax, by = c('last_name', 'graduation_year', 'count')) %>% 
   mutate(industry = str_split(industry, ","))
+
+  dat2 <- sapply(data$area, strsplit, ",")
+  dat2 <- lapply(dat2, trimws)
+  dat2 <- data.frame(matrix(unlist(dat2), ncol = 4, byrow = TRUE), stringsAsFactors = FALSE)
+  
+  dat2$State = sapply(dat2$X3, function(x) strsplit(x, " ")[[1]][1])
+dat2$Zip = sapply(dat2$X3, function(x) strsplit(x, " ")[[1]][2])
+
+dat2 = dat2[, -3]
+
+
+  
+  
+  
+  
+  mutate(city = str_split(area, ",")) 
 ```
 
 ```{r}
