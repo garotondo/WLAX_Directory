@@ -50,6 +50,39 @@ coords <- us_cities %>%
          state = "state_id")
 
 #Merge data_1 with us_cities data to match the coordinates with the cities
-full_data <- full_join(data_1, coords, by = c('city', 'state'))
+full_data <- left_join(data_1, coords, by = c('city', 'state'))
+
+
+#Using leaflet to create the map.
+#mymap <- mapStates = map("state", fill = TRUE, plot = FALSE)
+map <- leaflet(data = mapStates) %>% 
+  addTiles() %>%
+  addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
+
+
+#Mark clusters on map
+leaflet(location_points) %>% 
+  addTiles() %>% 
+  addMarkers(
+    clusterOptions = markerClusterOptions(
+      showCoverageOnHover = TRUE
+    )
+  )
+
+##Copied from ps_7
+#Data to use:
+full_data
+coords
+map
+
+#Coords needs to use the sf package for locations
+locations <- st_as_sf(coords, coords = c("lng", "lat"))
+
+#write RDS files to prep for map in shiny
+write_rds(full_data, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/data.rds")
+write_rds(locations, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/locations.rds")
+write_rds(map, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/map.rds" )
+
+
 
 
