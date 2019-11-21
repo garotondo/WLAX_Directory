@@ -1,15 +1,21 @@
-
 library(shiny)
 library(dplyr)
+library(readr)
 library(janitor)
+library(base)
 library(readxl)
 library(ggplot2)
 library(leaflet)
+library(purrr)
 library(maps)
+library(usmap)
+library(sf)
+library(fs)
+library(leaflet)
 library(tidyverse)
 
 #Create a directory and load in the two datasets. Make sure they are in the
-#right fiolder.
+#right folder.
 dir.create("raw_data")
 wlax <- read_excel("raw_data/WLAX_LETTERWINNER_DATA_complete.xlsx")
 alumnae <- read_excel("raw_data/FoHL_Alumnae_List_10.3.19_final.xls")
@@ -38,9 +44,11 @@ alumnae <- alumnae %>%
     mutate(graduation_year = as.numeric(graduation_year))
 
 #Merge the datasets and get rid of repeat names.
-data <- full_join(alumnae, wlax, by = c('last_name', 'graduation_year', 'count'))
+data <- full_join(alumnae, wlax, by = c('last_name', 'graduation_year', 'count')) %>% 
+    mutate(industry = str_split(industry, ","))
 
-
+r_colors <- rgb(t(col2rgb(colors()) / 255))
+names(r_colors) <- colors()
 
 # Define UI for application that draws a histogram
 ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"),
@@ -159,7 +167,7 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                       # Overview Explanation
                                       
                                       h3("Overview"),
-                                      h4("'You're doing Harvard wrong if you're not networking.' - David Kane"),
+                                      h4("'If your not Networking, you're doing Harvard wrong.' - David Kane"),
                                       h4("Networking is one of the most important skills an individual can develop at Harvard. 
                                          Though academics are important, the people you know are what is going to help you ultimately 
                                          land a job and launch a career after college. However this is the case, I found in my own job 
@@ -173,14 +181,15 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                       br(),
                                       br(),
                                       h3("Data Collection"), 
-                                      h4("To develop the directory, I used four sources of data: 1) an excel spreadsheet from 
+                                      h4("To develop the directory, I used five sources of data: 1) an excel spreadsheet from 
                                          the Harvard Varsit Club that included contact information; 2) Names of the Varsity 
                                          Letterwinners of Harvard Women's Lacrosse; 3) House and Concentration information from 
-                                         the official Harvard Alumni Directory; and 4) Information from LinkedIn. The second, 
-                                         third, and fourth sources I personally researched and collected their data to put in an 
-                                         excel spreadsheet. I especially wanted to manually search individuals' LinkedIn accounts 
-                                         to ensure that they were accurate matches so that if the given emails (by the Varsity Club) 
-                                         were not accurate, then users would have the option to reach out to someone through LinkedIn.")
+                                         the official Harvard Alumni Directory; 4) Information from LinkedIn; and 5) georgraphic 
+                                         locations of US cities. The second, third, and fourth sources I personally researched and 
+                                         collected their data to put in an excel spreadsheet. I especially wanted to manually search 
+                                         individuals' LinkedIn accounts to ensure that they were accurate matches so that if the given 
+                                         emails (by the Varsity Club) were not accurate, then users would have the option to reach out 
+                                         to someone through LinkedIn.")
                                       br(),
                                       br(),
                                       
@@ -199,7 +208,9 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                       
                                       h3("Data Use: Interactive Map"),
                                       h4("This data was used to create an interactive map in which individuals could search locations 
-                                         where alums resided based on their LinkedIn profiles."),
+                                         where alums resided based on their LinkedIn profiles. This is where the locations data was 
+                                         necessary to match the cities in the alumnae data with proper coordinates so that the cities 
+                                         could be located on the map."),
                                       
                                       br(),
                                       br(),
