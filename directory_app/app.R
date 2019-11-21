@@ -90,7 +90,7 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                                 "Neurobiology" = "Neurobiology",
                                                 "Sociology" = "Sociology",
                                                 "Musicology" = "Musicology"))),
-                          mainPanel("hi")))),
+                          mainPanel("Output of Search")))),
                    
                     ###################################
                     # MAP PAGE
@@ -179,7 +179,7 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                       
                                       # Repository Link
                                       
-                                      h4("Github Repository")))
+                                      h4("Github Repository: https://github.com/garotondo/WLAX_Directory ")))
                     
                     
 #The server portion of the app, which takes the inputs and produces outputs
