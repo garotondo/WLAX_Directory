@@ -27,7 +27,29 @@ alumnae <- alumnae %>%
   ungroup() %>% 
   mutate(graduation_year = as.numeric(graduation_year))
 
+#Merge the datasets and split the industries. This is necessary so that
+#individuals within multiple industries can be searched  as an individual in one
+#of the industries (not in a pair).
+data <- full_join(alumnae, wlax, by = c('last_name', 'graduation_year', 'count')) %>% 
+  mutate(industry = str_split(industry, ",")) 
+
+#Separate the areas into city and state columns 
+data_1 <- separate(data, area, into = c("city", "state"), sep = " (?=[^ ]+$)") %>% 
+  mutate(clean_city = substr(city, 1, nchar(city)-1)) %>% 
+  select(-city) %>% 
+  rename(city = "clean_city")
+
+
 #Load in coordinate data of us cities
 us_cities <- read_excel("raw_data/uscities.xlsx")
+
+#Clean us_cities data
+coords <- us_cities %>% 
+  select(city_ascii, state_id, lat, lng) %>% 
+  rename(city = "city_ascii",
+         state = "state_id")
+
+#Merge data_1 with us_cities data to match the coordinates with the cities
+full_data <- full_join(data_1, coords, by = c('city', 'state'))
 
 
