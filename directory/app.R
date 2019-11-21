@@ -128,7 +128,7 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                                 "Computer Science" = "Computer Science",
                                                 "Neurobiology" = "Neurobiology",
                                                 "Sociology" = "Sociology",
-                                                "Musicology" = "Musicology"))),
+                                                "Musicology" = "Musicology"))))),
                    
                     ###################################
                     # MAP PAGE
@@ -221,7 +221,7 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                       br()
                                       
                              )
-                    )
+                    ))
                     
                     
 #The server portion of the app, which takes the inputs and produces outputs
@@ -240,8 +240,8 @@ server <- function(input, output, session) {
             # Making sure the map has the shapes of the states and is colorful
             addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE) %>% 
             addMarkers(data = points())
-    })
-}
+    })}
+
 
                                       
                                     
