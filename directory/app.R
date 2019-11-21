@@ -47,6 +47,11 @@ alumnae <- alumnae %>%
 data <- full_join(alumnae, wlax, by = c('last_name', 'graduation_year', 'count')) %>% 
     mutate(industry = str_split(industry, ","))
 
+data_1 <- separate(data, area, into = c("city", "state"), sep = " (?=[^ ]+$)") %>% 
+    mutate(clean_city = substr(city, 1, nchar(city)-1)) %>% 
+    select(-city) %>% 
+    rename(city = "clean_city")
+
 r_colors <- rgb(t(col2rgb(colors()) / 255))
 names(r_colors) <- colors()
 
@@ -135,25 +140,10 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                  
                                  hr(),
                                  
-                                 leafletOutput("mymap"),
-                                 p(),
-                                 actionButton("recalc", "New points")
-                             )
+                                 leafletOutput("mymap", height = "500"),
+                                 p()
+                             ),
                              
-                             server <- function(input, output, session) {
-                                 
-                                 points <- eventReactive(input$recalc, {
-                                     cbind(rnorm(40) * 2 + 13, rnorm(40) + 48)
-                                 }, ignoreNULL = FALSE)
-                                 
-                                 output$mymap <- renderLeaflet({
-                                     leaflet() %>%
-                                         addProviderTiles(providers$Stamen.TonerLite,
-                                                          options = providerTileOptions(noWrap = TRUE)
-                                         ) %>%
-                                         addMarkers(data = points())
-                                 })
-                             }
                                   
                      ###################################
                      # ABOUT PAGE
@@ -172,7 +162,7 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                          Though academics are important, the people you know are what is going to help you ultimately 
                                          land a job and launch a career after college. However this is the case, I found in my own job 
                                          search that Harvard's alumni resources are out-of-date and unreliable. To solve this problem, 
-                                         I set out to develop an alumni directory - for the Harvard Women's Lacrosse Program.")
+                                         I set out to develop an alumni directory - for the Harvard Women's Lacrosse Program."),
                                       
                                       # The br() function adds white space to the app.
                                     
@@ -189,7 +179,7 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                          collected their data to put in an excel spreadsheet. I especially wanted to manually search 
                                          individuals' LinkedIn accounts to ensure that they were accurate matches so that if the given 
                                          emails (by the Varsity Club) were not accurate, then users would have the option to reach out 
-                                         to someone through LinkedIn.")
+                                         to someone through LinkedIn."),
                                       br(),
                                       br(),
                                       
@@ -234,28 +224,26 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                     )
                     
                     
-                                  
-                                  
-                                  
-                                      
-                                      #Search bar to input names 
-                                      searchInput(
-                                          inputId = "search", label = "Enter your text",
-                                          placeholder = "A placeholder",
-                                          btnSearch = icon("search"),
-                                          btnReset = icon("remove"),
-                                          width = "450px"
-                                      ),
-                                      br(),
-                                      verbatimTextOutput(outputId = "res")
-                                  ),
-                                  
-                                  
-                                    
-                       
-                                      
-                                      
-                                      
+#The server portion of the app, which takes the inputs and produces outputs
+server <- function(input, output, session) {
+    
+    points <- eventReactive(input$recalc, {
+        cbind(rnorm(40) * 2 + 13, rnorm(40) + 48)
+    }, ignoreNULL = FALSE)
+    
+    output$mymap <- renderLeaflet({
+        leaflet(data = mapStates) %>%
+            addProviderTiles(providers$Stamen.TonerLite,
+                             options = providerTileOptions(noWrap = TRUE)
+            ) %>%
+            addTiles() %>%
+            # Making sure the map has the shapes of the states and is colorful
+            addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE) %>% 
+            addMarkers(data = points())
+    })
+}
 
+                                      
+                                    
 # Run the application 
 shinyApp(ui = ui, server = server)

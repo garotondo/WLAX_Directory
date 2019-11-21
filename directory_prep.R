@@ -27,4 +27,7 @@ alumnae <- alumnae %>%
   ungroup() %>% 
   mutate(graduation_year = as.numeric(graduation_year))
 
+#Load in coordinate data of us cities
+us_cities <- read_excel("raw_data/uscities.xlsx")
+
 
