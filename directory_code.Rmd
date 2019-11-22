@@ -51,22 +51,3 @@ leaflet(location_points) %>%
 ```
 
 
-
-```{r}
-#US map example 1
-plot_usmap(data = statepop, values = "pop_2015", color = "darkblue") + 
-  scale_fill_continuous(
-    low = "white", high = "darkblue", name = "Population (2015)", label = scales::comma
-  ) + theme(legend.position = "right")
-```
-
-```{r}
-#US map example 2
-plot_usmap(regions = "counties") + 
-  labs(title = "US Counties",
-       subtitle = "This is a blank map of the counties of the United States.") + 
-  theme(panel.background = element_rect(color = "black", fill = "lightblue"))
-```
-
-
-
