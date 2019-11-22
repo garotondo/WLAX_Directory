@@ -95,7 +95,7 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                     ###################################
                     # MAP PAGE
                     ###################################                            
-                              
+                    #Use leaflet to create the map          
                     tabPanel("Map",
                              fluidPage(
                                  titlePanel("Locations of Alumni Based in the United States"),
@@ -184,11 +184,12 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                     
 #The server portion of the app, which takes the inputs and produces outputs
 server <- function(input, output, session) {
-    
+
 points <- eventReactive(input$recalc, {
     cbind(rnorm(40) * 2 + 13, rnorm(40) + 48)
 }, ignoreNULL = FALSE)
 
+#Using leaflet to create the map. Need to have the markers to show alum locations
 output$mymap <- renderLeaflet({
     leaflet(data = mapStates) %>%
         addProviderTiles(providers$Stamen.TonerLite,
