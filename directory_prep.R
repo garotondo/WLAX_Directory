@@ -69,20 +69,3 @@ leaflet(location_points) %>%
     )
   )
 
-##Copied from ps_7
-#Data to use:
-full_data
-coords
-map
-
-#Coords needs to use the sf package for locations
-locations <- st_as_sf(coords, coords = c("lng", "lat"))
-
-#write RDS files to prep for map in shiny
-write_rds(full_data, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/data.rds")
-write_rds(locations, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/locations.rds")
-write_rds(map, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/map.rds" )
-
-
-
-
