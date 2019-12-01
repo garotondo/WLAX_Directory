@@ -12,12 +12,13 @@ library(maps)
 library(usmap)
 library(sf)
 library(fs)
+library(js)
 library(leaflet)
 library(tidyverse)
 
 #Create a directory and load in the two datasets. Make sure they are in the
 #right folder.
-full_data <- read_rds("raw_data/data.rds")
+full_data <- readRDS("~/Desktop/GOV1005 /Project/WLAX_Directory/directory_app/raw_data/data.rds")
 
 # Define UI for application that draws a histogram
 ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"),
@@ -25,33 +26,25 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                  ###################################
                  # SEARCH PAGE
                  ###################################
-                 
                  tabPanel("Search",
-                          
                           fluidPage(
-                              
                               titlePanel("Harvard Women's Lacrosse Alumni"),
-                              
                               hr(),
-                              
                               sidebarLayout(
                                   sidebarPanel(
-                                      helpText("Input a Name to search the Alumni Community"),
-                                      h3("Search"),
-                                      
-                                      # DTable Keyword Input - input$name
-                                      
-                                      textInput(c("name", "first_name.x", "last_name"), "Please enter a full, first, or last name"),
-                        
+                                      helpText(""),
+                                      h3("Search")),
+                                  # Keyword Input - input$name
+                                  textInput(c("name", "first_name", "maiden_name", "last_name"), "Please enter a full, first, or last name"),
+                                  mainPanel("Output"),
                                   
-                                  # Industry Input - input$industry (see Quantmod "industry" argument")
-                        
+                                  # Industry Dropdown - input$industry (see Quantmod "industry" argument")
                                   selectInput("industry", "Industry:",
                                               c("Finance" = "Finance",
                                                 "Consulting" = "Consulting",
                                                 "Law" = "Law",
                                                 "Public Policy" = "Public Policy",
-                                                "Hospitality" = "Hospitrality",
+                                                "Hospitality" = "Hospitality",
                                                 "Food & Beverages" = "Food & Beverages",
                                                 "Non-Profit" = "Non-Profit",
                                                 "Public Sector" = "Public Sector",
@@ -70,7 +63,7 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                                 "Music" = "Music",
                                                 "Sports" = "Coaching")),
                                   
-                                  # Concentration Input - input$industry (see Quantmod "concentration" argument")
+                                  # Concentration Dropdown - input$industry (see Quantmod "concentration" argument")
                                   selectInput("concentration", "Concentration:",
                                               c("Economics" = "Economics",
                                                 "Government" = "Government",
@@ -89,9 +82,23 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                                 "Computer Science" = "Computer Science",
                                                 "Neurobiology" = "Neurobiology",
                                                 "Sociology" = "Sociology",
-                                                "Musicology" = "Musicology"))),
-                          mainPanel("Output of Search")))),
-                   
+                                                "Musicology" = "Musicology")))),
+                                selectInput("house", "House:",
+                                            c("Adams" = "Adams",
+                                              "Cabot" = "Cabot",
+                                              "Courier" = "Courier",
+                                              "Dudley" = "Dudley",
+                                              "Dunster" = "Dunster",
+                                              "Eliot" = "Eliot",
+                                              "Leverett" = "Leverett",
+                                              "Kirkland" = "Kirkland",
+                                              "Lowell" = "Lowell",
+                                              "Mather"= "Mather",
+                                              "Phorzheimer" = "Phorzheimer",
+                                              "Quincy" = "Quincy",
+                                              "South House" = "South House",
+                                              "Winthrop" = "Winthrop"))),
+                
                     ###################################
                     # MAP PAGE
                     ###################################                            
@@ -103,7 +110,7 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                  hr(),
                                  
                                  leafletOutput("mymap", height = "500"),
-                                 p()
+                                 p("This map shows the locations of alums in the United States.")
                              )),
                              
                                   
@@ -189,7 +196,10 @@ points <- eventReactive(input$recalc, {
     cbind(rnorm(40) * 2 + 13, rnorm(40) + 48)
 }, ignoreNULL = FALSE)
 
-#Using leaflet to create the map. Need to have the markers to show alum locations
+
+#output$search <- 
+
+
 output$mymap <- renderLeaflet({
     leaflet(data = mapStates) %>%
         addProviderTiles(providers$Stamen.TonerLite,
