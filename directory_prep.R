@@ -29,15 +29,17 @@ alumnae_clean <- alumnae %>%
 #Merge the datasets and split the industries. This is necessary so that
 #individuals within multiple industries can be searched  as an individual in one
 #of the industries (not in a pair).
-data <- left_join(alumnae_clean, wlax_clean, by = c('name', 'first_name', 'maiden_name', 
-                                                    'last_name', 'graduation_year', 'count')) %>%
-  mutate(industry = str_split(industry, ",")) 
+data <- full_join(alumnae_clean, wlax_clean, by = c('last_name', 'graduation_year')) %>%
+  mutate(industry = str_split(industry, ",")) %>% 
+  select(-first_name.y, -maiden_name.y, -name.y, -count.y, -secondary_concentration, -citations, -other_website)
 
 #Separate the areas into city and state columns 
 data_1 <- separate(data, area, into = c("city", "state"), sep = " (?=[^ ]+$)") %>% 
   mutate(clean_city = substr(city, 1, nchar(city)-1)) %>% 
   select(-city) %>% 
-  rename(city = "clean_city")
+  rename(city = "clean_city") %>% 
+  select(name.x, first_name.x, maiden_name.x, 
+         last_name, graduation_year, )
 
 
 #Load in coordinate data of us cities
@@ -50,9 +52,7 @@ coords <- us_cities %>%
          state = "state_id")
 
 #Merge data_1 with us_cities data to match the coordinates with the cities
-full_data <- left_join(data_1, coords, by = c('city', 'state'))
-          
-
+full_data <- left_join(data_1, coords, by = c('home_city'='city', 'home_state'='state'))
 
 #Using leaflet to create the map.
 #mymap <- mapStates = map("state", fill = TRUE, plot = FALSE)
@@ -82,5 +82,6 @@ locations <- st_as_sf(coords, coords = c("lng", "lat"))
 #write RDS files to prep for map in shiny
 write_rds(full_data, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/data.rds")
 write_rds(locations, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/locations.rds")
-write_rds(map, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/map.rds" )
+write_rds(map, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/map.rds")
+
 

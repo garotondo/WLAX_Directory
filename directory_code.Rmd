@@ -22,6 +22,7 @@ library(readr)
 library(sf)
 library(fs)
 library(leaflet)
+library(DT)
 library(tidyverse)
 ```
 

@@ -14,6 +14,7 @@ library(sf)
 library(fs)
 library(js)
 library(leaflet)
+library(DT)
 library(tidyverse)
 
 #Create a directory and load in the two datasets. Make sure they are in the
@@ -21,83 +22,19 @@ library(tidyverse)
 full_data <- readRDS("~/Desktop/GOV1005 /Project/WLAX_Directory/directory_app/raw_data/data.rds")
 
 # Define UI for application that draws a histogram
-ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"),
+ui <- fluidPage(
+    navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"),
                  
                  ###################################
                  # SEARCH PAGE
                  ###################################
                  tabPanel("Search",
-                          fluidPage(
                               titlePanel("Harvard Women's Lacrosse Alumni"),
-                              hr(),
-                              sidebarLayout(
-                                  sidebarPanel(
-                                      helpText(""),
-                                      h3("Search")),
-                                  # Keyword Input - input$name
-                                  textInput(c("name", "first_name", "maiden_name", "last_name"), "Please enter a full, first, or last name"),
-                                  mainPanel("Output"),
+                              mainPanel(
+                                      DTOutput('search')
+                                  )),
                                   
-                                  # Industry Dropdown - input$industry (see Quantmod "industry" argument")
-                                  selectInput("industry", "Industry:",
-                                              c("Finance" = "Finance",
-                                                "Consulting" = "Consulting",
-                                                "Law" = "Law",
-                                                "Public Policy" = "Public Policy",
-                                                "Hospitality" = "Hospitality",
-                                                "Food & Beverages" = "Food & Beverages",
-                                                "Non-Profit" = "Non-Profit",
-                                                "Public Sector" = "Public Sector",
-                                                "Cosmetics" = "Cosmetics",
-                                                "Marketing" = "Marketing",
-                                                "Health Care" = "Health Care",
-                                                "Higher Education" = "Higher Education",
-                                                "Real Estate" = "Real Estate",
-                                                "Journalism" = "Journalism",
-                                                "Technology" = "Technology",
-                                                "Computer Software" = "Computer Software",
-                                                "Media" = "Media",
-                                                "Education" = "Education",
-                                                "Sales" = "Sales",
-                                                "Media Production" = "Media Production",
-                                                "Music" = "Music",
-                                                "Sports" = "Coaching")),
-                                  
-                                  # Concentration Dropdown - input$industry (see Quantmod "concentration" argument")
-                                  selectInput("concentration", "Concentration:",
-                                              c("Economics" = "Economics",
-                                                "Government" = "Government",
-                                                "Psychology" = "Psychology",
-                                                "Statistics" = "Statistics",
-                                                "Human Evolutionary Biology" = "Human Evolutionary Biology",
-                                                "Biology" = "Biology",
-                                                "Organismic & Evolution Biology" = "Organismic & Evolution Biology",
-                                                "English & American Literature and Language" = "English & American Literature and Language",
-                                                "Social Studies" = "Social Studies",
-                                                "History" = "History",
-                                                "History of Art & Architecture" = "History of Art & Architecture",
-                                                "East Asian Studies" = "East Asian Studies",
-                                                "Anthropology" = "Anthropology",
-                                                "Physics" = "Physics",
-                                                "Computer Science" = "Computer Science",
-                                                "Neurobiology" = "Neurobiology",
-                                                "Sociology" = "Sociology",
-                                                "Musicology" = "Musicology")))),
-                                selectInput("house", "House:",
-                                            c("Adams" = "Adams",
-                                              "Cabot" = "Cabot",
-                                              "Courier" = "Courier",
-                                              "Dudley" = "Dudley",
-                                              "Dunster" = "Dunster",
-                                              "Eliot" = "Eliot",
-                                              "Leverett" = "Leverett",
-                                              "Kirkland" = "Kirkland",
-                                              "Lowell" = "Lowell",
-                                              "Mather"= "Mather",
-                                              "Phorzheimer" = "Phorzheimer",
-                                              "Quincy" = "Quincy",
-                                              "South House" = "South House",
-                                              "Winthrop" = "Winthrop"))),
+
                 
                     ###################################
                     # MAP PAGE
@@ -186,11 +123,16 @@ ui <- navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"
                                       
                                       # Repository Link
                                       
-                                      h4("Github Repository: https://github.com/garotondo/WLAX_Directory ")))
+                                      h4("Github Repository: https://github.com/garotondo/WLAX_Directory "))))
                     
                     
 #The server portion of the app, which takes the inputs and produces outputs
 server <- function(input, output, session) {
+    
+    output$search <- renderDT(
+        full_data %>% select(name, home_city, home_state,
+                             graduation_year, house, concentration,
+                             company, role, city, state, linked_in), options = list(lengthChange = FALSE))
 
 points <- eventReactive(input$recalc, {
     cbind(rnorm(40) * 2 + 13, rnorm(40) + 48)
@@ -208,7 +150,7 @@ output$mymap <- renderLeaflet({
         addTiles() %>%
         # Making sure the map has the shapes of the states and is colorful
         addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE) %>%
-        addMarkers(data = full_data, ~lng, ~lat, popup = ~as.character(name.x))
+        addMarkers(data = full_data, ~lng, ~lat, popup = ~as.character(name))
 })
 }
 
