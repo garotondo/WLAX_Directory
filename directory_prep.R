@@ -18,8 +18,8 @@ library(tidyverse)
 
 #Create a directory and load in the two datasets. Make sure they are in the
 #right folder.
-wlax <- read_excel("raw_data/WLAX_LETTERWINNER_DATA_complete.xlsx")
-alumnae <- read_excel("raw_data/FoHL_ALumnae_List_10.3.19_final.xls")
+wlax <- read_excel("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/WLAX_LETTERWINNER_DATA_complete.xlsx")
+alumnae <- read_excel("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/FoHL_ALumnae_List_10.3.19_final.xls")
 
 #Name the datasets and rename column names to establish uniform data. Both
 #datasets have the same variables, just with different titles.
@@ -36,7 +36,7 @@ wlax_clean <- wlax %>%
 alumnae_clean <- alumnae %>% 
   select("Name", "First Name", "Maiden Name", "Last Name", "Graduation Year", 
          "Home City", "Home State", "Preferred Email Address", 
-         "Area Code", "Phone Number", "Company Name", 
+         "Area Code", "Number", "Phone Number 1", "Company Name", 
          "Company City","Company State") %>% 
   clean_names() %>% 
   group_by(last_name, graduation_year) %>%
@@ -69,13 +69,17 @@ coords <- us_cities %>%
   rename(city = "city_ascii",
          state = "state_id")
 
+
 #Merge data_1 with us_cities data to match the coordinates with the cities. Use
 #left_join so that the coordinates data is just being added to the greater
 #dataset.
 full_data <- left_join(data_1, coords, by = c('home_city'='city', 'home_state'='state')) %>% 
   select(name.x, first_name.x, maiden_name.x, last_name, graduation_year, house, 
          concentration, home_city, home_state, lat, lng, preferred_email_address, 
-         area_code, phone_number, company, role, industry, work_city, work_state, linked_in)
+         area_code, number, phone_number_1, company, role, industry, work_city, 
+         work_state, linked_in)
+
+
 
 
 #Using leaflet to create the map. This code will go directly into the shiny

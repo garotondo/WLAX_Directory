@@ -23,15 +23,9 @@ full_data <- readRDS("~/Desktop/GOV1005 /Project/WLAX_Directory/directory_app/ra
 
 # Define UI for application to include 3 tabs.
 ui <- fluidPage(
-    navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("simplex"),
+    navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("cerulean"),
                
-               #The first tab is the search tab which was made using DT in the server.
-               tabPanel("Search",
-                              titlePanel("Harvard Women's Lacrosse Alumni"),
-                              mainPanel(
-                                      DTOutput('search')
-                                  )),
-               #The second tab is the map which was made using leaflet
+               #The first tab is the map which was made using leaflet
                tabPanel("Map",
                         fluidPage(
                             titlePanel("Home Locations of Alumni Based in the United States"),
@@ -39,8 +33,17 @@ ui <- fluidPage(
                             hr(),
                             
                             leafletOutput("mymap", height = "500"),
-                            p("This map shows the home cities and states of US-based alums.")
-                             )),
+                            p("This is an interactive map that shows the home cities and states of US-based alums. Click on a point to reveal a name.")
+                        )),
+               
+               
+               #The second tab is the search tab which was made using DT in the server.
+               tabPanel("Search",
+                              titlePanel("Harvard Women's Lacrosse Alumni"),
+                              mainPanel(
+                                      DTOutput('search')
+                                  )),
+               
                #The third tab is the About page.
                tabPanel("About",
                         titlePanel(h3("Fixing the Flaws of Networking: Creating an Accurate Alumni Directory for the Harvard Women's Lacrosse Program")),
@@ -98,17 +101,19 @@ ui <- fluidPage(
 #The server portion of the app, which takes the inputs and produces outputs
 server <- function(input, output, session) {
     
-    output$search <- renderDT(
-        full_data %>% 
+    output$search <- renderDT({
+        table_data <- full_data %>% 
             select(name.x, home_city, home_state, graduation_year, 
-                   house, concentration, company, role, work_city, 
-                   work_state, linked_in), options = list(lengthChange = FALSE))
+                   house, concentration, company, role, industry,
+                   preferred_email_address, phone_number_1, linked_in)
+        
+        colnames(table_data) <- c("Name", "Home City", "Home State", "Graduation Year", 
+                         "House", "Concentration", "Company", "Role", "Industry", "Email", 
+                         "Phone Number", "LinkedIn")
+        table_data
+        })
     
-    
-    points <- eventReactive(input$recalc, {
-    cbind(rnorm(40) * 2 + 13, rnorm(40) + 48)
-        }, ignoreNULL = FALSE)
-    
+
     
     output$mymap <- renderLeaflet({
     leaflet(data = mapStates) %>%
