@@ -1,25 +1,22 @@
-library(shiny)
-library(dplyr)
-library(readr)
-library(shinythemes)
-library(janitor)
-library(base)
 library(readxl)
+library(readr)
+library(base)
+library(usmap)
 library(ggplot2)
-library(leaflet)
 library(purrr)
 library(maps)
-library(usmap)
 library(sf)
 library(fs)
-library(js)
 library(leaflet)
+library(dplyr)
+library(shiny)
 library(DT)
 library(tidyverse)
 
 #Create a directory and load in the two datasets. Make sure they are in the
 #right folder.
-full_data <- readRDS("~/Desktop/GOV1005 /Project/WLAX_Directory/directory_app/raw_data/data.rds")
+
+full_data <- readRDS("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/data.rds")
 
 # Define UI for application to include 3 tabs.
 ui <- fluidPage(
@@ -118,14 +115,14 @@ server <- function(input, output, session) {
         })
     
 
-    
+    #Create the map ouput using leaflet
     output$mymap <- renderLeaflet({
     leaflet(data = mapStates) %>%
         addProviderTiles(providers$Stamen.TonerLite,
                          options = providerTileOptions(noWrap = TRUE)
         ) %>%
         addTiles() %>%
-        # Making sure the map has the shapes of the states and is colorful
+        # Making sure the map has the shapes of the states, is colorful, and has markers.
         addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE) %>%
         addMarkers(data = full_data, ~lng, ~lat, popup = ~as.character(name.x))
 })
