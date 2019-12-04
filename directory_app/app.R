@@ -1,22 +1,22 @@
 library(readxl)
-library(readr)
-library(base)
-library(usmap)
-library(ggplot2)
 library(purrr)
-library(maps)
 library(sf)
 library(fs)
-library(leaflet)
-library(dplyr)
-library(shiny)
 library(DT)
+library(leaflet)
+library(raster)
+library(sp)
+library(janitor)
 library(tidyverse)
+library(usmap)
+library(maps)
+library(shiny)
+library(shinythemes)
 
 #Create a directory and load in the two datasets. Make sure they are in the
 #right folder.
 
-full_data <- readRDS("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/data.rds")
+full_data <- readRDS("data.rds")
 
 # Define UI for application to include 3 tabs.
 ui <- fluidPage(
@@ -106,18 +106,28 @@ server <- function(input, output, session) {
         table_data <- full_data %>% 
             select(name.x, home_city, home_state, graduation_year, 
                    house, concentration, company, role, industry,
-                   preferred_email_address, phone_number_1, linked_in)
+                   preferred_email_address, linked_in)
         
         colnames(table_data) <- c("Name", "Home City", "Home State", "Graduation Year", 
                          "House", "Concentration", "Company", "Role", "Industry", "Email", 
-                         "Phone Number", "LinkedIn")
+                         "LinkedIn")
         table_data
         })
     
 
+    #Create the points
+    points <- eventReactive(input$recalc, {
+        cbind(rnorm(40) * 2 + 13, rnorm(40) + 48)
+    }, ignoreNULL = FALSE)
+    
     #Create the map ouput using leaflet
     output$mymap <- renderLeaflet({
-    leaflet(data = mapStates) %>%
+        mapStates = maps::map("state", fill = TRUE, plot = FALSE)
+            leaflet(data = mapStates) %>% 
+            addTiles() %>%
+            addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
+        
+        leaflet(data = mapStates) %>%
         addProviderTiles(providers$Stamen.TonerLite,
                          options = providerTileOptions(noWrap = TRUE)
         ) %>%

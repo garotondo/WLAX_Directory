@@ -1,22 +1,20 @@
 library(readxl)
-library(readr)
-library(base)
-library(usmap)
-library(maps)
-library(ggplot2)
 library(purrr)
 library(sf)
 library(fs)
 library(DT)
 library(leaflet)
+library(raster)
+library(sp)
 library(janitor)
-library(dplyr)
 library(tidyverse)
+library(usmap)
+library(maps)
 
 #Create a directory and load in the two datasets. Make sure they are in the
 #right folder.
-wlax <- read_excel("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/WLAX_LETTERWINNER_DATA_complete.xlsx")
-alumnae <- read_excel("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/FoHL_ALumnae_List_10.3.19_final.xls")
+wlax <- read_excel("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/WLAX_LETTERWINNER_DATA_complete.xlsx")
+alumnae <- read_excel("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/FoHL_ALumnae_List_10.3.19_final.xls")
 
 #Name the datasets and rename column names to establish uniform data. Both
 #datasets have the same variables, just with different titles.
@@ -31,7 +29,7 @@ wlax_clean <- wlax %>%
   mutate(count = sequence(n()))
 
 alumnae_clean <- alumnae %>% 
-  select("Name", "First Name", "Maiden Name", "Last Name", "Graduation Year", 
+  dplyr::select("Name", "First Name", "Maiden Name", "Last Name", "Graduation Year", 
          "Home City", "Home State", "Preferred Email Address", 
          "Area Code", "Number", "Phone Number 1", "Company Name", 
          "Company City","Company State") %>% 
@@ -58,7 +56,7 @@ data_1 <- separate(data, area, into = c("city", "state"), sep = " (?=[^ ]+$)") %
          work_state = "state")
 
 #Load in coordinate data of US cities
-us_cities <- read_excel("directory_app/raw_data/uscities.xlsx")
+us_cities <- read_excel("~/Desktop/GOV1005 /Project/WLAX_Directory/directory_app/uscities.xlsx")
 
 #Clean us_cities data
 coords <- us_cities %>% 
@@ -81,8 +79,14 @@ full_data <- left_join(data_1, coords, by = c('home_city'='city', 'home_state'='
 
 #Using leaflet to create the map. This code will go directly into the shiny
 #server.
-map <- leaflet(data = mapStates) %>% 
-  addTiles() %>%
+library(maps)
+#mapStates <- as_mapper(~map("state", fill = TRUE, plot = FALSE))
+mapStates = maps::map("state", fill = TRUE, plot = FALSE)
+#map <- leaflet(data=mapStates) %>%
+ # addProviderTiles(providers$CartoDB.Positron) %>%
+ # addPolygons(getMapData(mapStates), fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
+
+map <- leaflet(data = mapStates) %>% addTiles() %>%
   addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
 
 
@@ -99,7 +103,7 @@ locations <- st_as_sf(coords, coords = c("lng", "lat"))
 
 
 #write RDS files to prep for map in shiny
-write_rds(full_data, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/data.rds")
-write_rds(locations, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/locations.rds")
-write_rds(map, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/raw_data/map.rds")
+write_rds(full_data, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/data.rds")
+write_rds(locations, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/locations.rds")
+write_rds(map, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/map.rds")
 
