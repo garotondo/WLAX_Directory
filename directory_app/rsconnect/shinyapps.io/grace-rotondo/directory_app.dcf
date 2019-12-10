@@ -5,8 +5,8 @@ account: grace-rotondo
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1508700
-bundleId: 2657300
+bundleId: 2657317
 url: https://grace-rotondo.shinyapps.io/directory_app/
-when: 1576020471.68246
+when: 1576020961.80325
 asMultiple: FALSE
 asStatic: FALSE
