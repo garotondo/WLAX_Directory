@@ -66,7 +66,6 @@ coords <- us_cities %>%
   rename(city = "city_ascii",
          state = "state_id")
 
-
 #Merge data_1 with us_cities data to match the coordinates with the cities. Use
 #left_join so that the coordinates data is just being added to the greater
 #dataset.
@@ -84,13 +83,13 @@ full_data <- left_join(data_1, coords, by = c('home_city'='city', 'home_state'='
 library(maps)
 #mapStates <- as_mapper(~map("state", fill = TRUE, plot = FALSE))
 mapStates = maps::map("state", fill = TRUE, plot = FALSE)
+
 #map <- leaflet(data=mapStates) %>%
  # addProviderTiles(providers$CartoDB.Positron) %>%
  # addPolygons(getMapData(mapStates), fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
 
 map <- leaflet(data = mapStates) %>% addTiles() %>%
   addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
-
 
 ##Copied from ps_7 (for my own notes)
 #Data to use: 
