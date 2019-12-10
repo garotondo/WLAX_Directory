@@ -39,6 +39,7 @@ alumnae_clean <- alumnae %>%
   ungroup() %>% 
   mutate(graduation_year = as.numeric(graduation_year))
 
+
 #Merge the datasets and split the industries. This is necessary so that
 #individuals within multiple industries can be searched  as an individual in one
 #of the industries (not in a pair).
@@ -46,6 +47,7 @@ data <- full_join(alumnae_clean, wlax_clean, by = c('last_name', 'graduation_yea
   mutate(industry = str_split(industry, ",")) %>% 
   select(-first_name.y, -maiden_name.y, -name.y, -count.y, 
          -secondary_concentration, -citations, -other_website)
+
 
 #Separate the areas into city and state columns and clarify that those cities
 #and states are work locations
