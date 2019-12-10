@@ -108,3 +108,20 @@ write_rds(full_data, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directo
 write_rds(locations, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/locations.rds")
 write_rds(map, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/map.rds")
 
+
+output$mymap <- renderLeaflet({
+  mapStates = maps::map("state", fill = TRUE, plot = FALSE)
+  leaflet(data = mapStates) %>% 
+    addTiles() %>%
+    addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
+  
+  leaflet(data = mapStates) %>%
+    addProviderTiles(providers$Stamen.TonerLite,
+                     options = providerTileOptions(noWrap = TRUE)
+    ) %>%
+    addTiles() %>%
+    # Making sure the map has the shapes of the states, is colorful, and has markers.
+    addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE) %>%
+    addMarkers(data = full_data, ~lng, ~lat, popup = ~as.character(name.x))
+})
+}

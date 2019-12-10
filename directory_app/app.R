@@ -29,7 +29,7 @@ ui <- fluidPage(
                             
                             hr(),
                             
-                            leafletOutput("mymap", height = "500"),
+                            leafletOutput("mymap", height = "600"),
                             p("This is an interactive map that shows the home cities and states of US-based alums. Click on a point to reveal a name.")
                         )),
                
@@ -38,7 +38,7 @@ ui <- fluidPage(
                tabPanel("Search",
                               titlePanel("Harvard Women's Lacrosse Alumni"),
                               mainPanel(
-                                      DTOutput('search')
+                                      DTOutput('search'), width = "100%", height = "auto"
                                   )),
                
                #The third tab is the About page.
@@ -106,12 +106,16 @@ server <- function(input, output, session) {
         table_data <- full_data %>% 
             select(name.x, home_city, home_state, graduation_year, 
                    house, concentration, company, role, industry,
-                   preferred_email_address, linked_in)
+                   preferred_email_address, linked_in) 
         
         colnames(table_data) <- c("Name", "Home City", "Home State", "Graduation Year", 
-                         "House", "Concentration", "Company", "Role", "Industry", "Email", 
+                         "House", "Concentration", "Employer", "Role", "Industry", "Email", 
                          "LinkedIn")
-        table_data
+        table_data %>% 
+            datatable(extensions = c('Responsive', 'Buttons'), options = list(
+                dom = 'Bfrtip',
+                buttons = c('copy', 'excel', 'pdf')
+            ), rownames = FALSE)
         })
     
 
