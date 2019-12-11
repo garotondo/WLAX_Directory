@@ -30,7 +30,8 @@ ui <- fluidPage(
                             hr(),
                             
                             leafletOutput("mymap", height = "600"),
-                            p("This is an interactive map that shows the home cities and states of US-based alums. Click on a point to reveal a name.")
+                            p("This is an interactive map that shows the home cities and states of US-based alums. 
+                              Click on a point to reveal a name, then look up the name in the Search tab.")
                         )),
                
                
@@ -43,17 +44,18 @@ ui <- fluidPage(
                
                #The third tab is the About page.
                tabPanel("About",
-                        titlePanel(h2("Fixing the Flaws of Networking: An Accurate Alumni Directory of the Harvard Women's Lacrosse Program")),
+                        titlePanel(h3("Fixing the Flaws of Networking: An Alumni Directory of the Harvard Women's Lacrosse Program")),
                         
                         hr(),
                         h4("Overview"),
-                        p("'If your not Networking, you're doing Harvard wrong.' - David Kane"),
-                        p("Networking is one of the most important skills a person can develop while at Harvard. 
-                           Though academics are important, your network of people is what is going to help you 
-                           ultimately land a job and launch a career after college. Though this is the case, I 
-                           found in my own job search that Harvard's alumni resources are out-of-date and unreliable. 
-                           To solve this problem, I set out to develop an alumni directory - for the Harvard Women's 
-                           Lacrosse Program. "),
+                        h5("'If your not Networking, you're doing Harvard wrong.' - David Kane"),
+                        p("Networking is one of the most important skills a person can develop while at Harvard, 
+                        and in life. Grades are important, your network of people is what is going to help you 
+                        ultimately land a job and launch a career after college. Though this is the case, I found 
+                        that Harvard's alumni resources are out-of-date and unreliable. To solve this problem, I 
+                        developed an accurate and functional alumni directory on a much smaller scale - for the 
+                        Harvard Women's Lacrosse Program.
+                        "),
                                       
                         # The br() function adds white space to the app.
                         # Data Collection Explanation
@@ -76,9 +78,10 @@ ui <- fluidPage(
                         
                         # Map Page Explanation
                         h4("Data Use: Interactive Map"),
-                        p("This data was used to create an interactive map using Leaflet in which individuals could find 
-                        the home locations of alums. I then added points that indicate the alums' home locations, and 
-                        Leaflet allows for a user to click on a point and see who is from that particular location."),
+                        p("This data was used to create an interactive map using Leaflet with which people can find 
+                        the home locations of alums. Leaflet allows for a user interface, so I added points that 
+                        indicate the alums' home locations and show the alum's name so that users can see who is from 
+                        a particular location."),
                         br(),
                         
                         # Search Page Explanation
@@ -89,14 +92,24 @@ ui <- fluidPage(
                            and produces any rows of information containing the relevant search term."),
                         br(),
 
-                        h5("About Me: Grace Rotondo"),
-                        p("I am a junior at Harvard College studying Psychology and Economics. Additionally, I am a 
+                        h4("About Me: Grace Rotondo"),
+                        p("I am a junior at Harvard College studying Psychology and Economics. I am also a 
                             member of the Women's Lacrosse Team, The Student-Athlete Advisory Committee, and Harvard 
                             Undergraduate Women in Business. Contact me at: grotondo@college.harvard.edu."),
                         br(),
+                        
+                        h4("Note"),
+                        p("I obtained the information used for this directory from the Harvard Varsity Club, which I found 
+                        is not very reliable. I did my best to include LinkedIn information so that if the information in the 
+                        directory is not accurate, there is a way for users to still find accurate information somewhere. If 
+                        you are a Harvard Women's Lacrosse alum or a member of the current team and don't see your information 
+                        in this directory, or if you would like to update your information, please fill out", 
+                        tags$a("this form.", href = "https://forms.gle/Robh4N3u7dMDZ7JX9")), 
+                         
+                        br(),
                         hr(),
                         # Repository Link
-                        h5("Github Repository: https://github.com/garotondo/WLAX_Directory "))))
+                        h5("Github Repository: https://github.com/garotondo/WLAX_Directory"))))
                     
                     
 #The server portion of the app, which takes the inputs and produces outputs
