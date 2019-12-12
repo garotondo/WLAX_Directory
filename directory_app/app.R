@@ -51,7 +51,7 @@ ui <- fluidPage(
                         h4("Overview"),
                         h5("If you're not Networking, you're doing Harvard wrong. ~ David Kane"),
                         p("Networking is one of the most important skills a person can develop while at Harvard, 
-                        and in life. Grades are important, your network of people is what is going to help you 
+                        and in life. Grades are important; however, your network of people is what is going to help you 
                         ultimately land a job and launch a career after college. Though this is the case, I found 
                         that Harvard's alumni resources are out-of-date and unreliable. To solve this problem, I 
                         developed an accurate and functional alumni directory on a much for the 
