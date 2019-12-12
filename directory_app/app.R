@@ -93,12 +93,16 @@ ui <- fluidPage(
                            and produces any rows of information containing the relevant search term."),
                         br(),
                         
+                        #Bio
                         h4("About Me: Grace Rotondo"),
                         p("I am a junior at Harvard College studying Psychology and Economics. I am also a 
-                            member of the Women's Lacrosse Team, The Student-Athlete Advisory Committee, and Harvard 
+                            member of the Women's Lacrosse Team, the Student-Athlete Advisory Committee, and Harvard 
                             Undergraduate Women in Business. Contact me at: grotondo@college.harvard.edu."),
                         br(),
                         
+                        #Note at the bottom includes a link to a form that alums
+                        #can add their information to so that I can update the
+                        #directory as needed.
                         h4("Note"),
                         p("I obtained the information used for this directory from the Harvard Varsity Club, which I found 
                         is not very reliable. I did my best to include LinkedIn information so that if the information in the 
@@ -110,7 +114,7 @@ ui <- fluidPage(
                         br(),
                         hr(),
                         # Repository Link
-                        h5("Github Repository: https://github.com/garotondo/WLAX_Directory"))))
+                        h5("Github Repository:", tags$a("https://github.com/garotondo/WLAX_Directory", href = "https://github.com/garotondo/WLAX_Directory")))))
 
 
 #The server portion of the app, which takes the inputs and produces outputs
