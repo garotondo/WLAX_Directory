@@ -14,7 +14,7 @@ library(maps)
 #Create a directory and load in the two datasets. Make sure they are in the
 #right folder.
 wlax <- read_excel("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/WLAX_LETTERWINNER_DATA_complete.xlsx")
-alumnae <- read_excel("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/FoHL_ALumnae_List_10.3.19_final.xls")
+alumnae <- read_excel("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/FoHL_ALumnae_List_10.3.19_final.xlsx")
 
 #Name the datasets and rename column names to establish uniform data. Both
 #datasets have the same variables, just with different titles.
@@ -30,9 +30,9 @@ wlax_clean <- wlax %>%
 
 alumnae_clean <- alumnae %>% 
   dplyr::select("Name", "First Name", "Maiden Name", "Last Name", "Graduation Year", 
-         "Home City", "Home State", "Preferred Email Address", 
-         "Area Code", "Number", "Phone Number 1", "Company Name", 
-         "Company City","Company State") %>% 
+                "Home City", "Home State", "Preferred Email Address", 
+                "Area Code", "Number", "Phone Number 1", "Company Name", 
+                "Company City","Company State") %>% 
   clean_names() %>% 
   group_by(last_name, graduation_year) %>%
   mutate(count = sequence(n())) %>% 
@@ -81,16 +81,10 @@ full_data <- left_join(data_1, coords, by = c('home_city'='city', 'home_state'='
 #Using leaflet to create the map. This code will go directly into the shiny
 #server.
 library(maps)
-#mapStates <- as_mapper(~map("state", fill = TRUE, plot = FALSE))
 mapStates = maps::map("state", fill = TRUE, plot = FALSE)
 map <- leaflet(data = mapStates) %>% addTiles() %>%
   addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
 
 
-#Coords needs to use the sf package for locations
-locations <- st_as_sf(coords, coords = c("lng", "lat"))
-
 #write RDS files to prep for data in shiny
 write_rds(full_data, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/data.rds")
-
-

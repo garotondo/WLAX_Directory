@@ -13,6 +13,7 @@ library(maps)
 library(shiny)
 library(shinythemes)
 
+
 #Create a directory and load in the two datasets. Make sure they are in the
 #right folder.
 
@@ -37,10 +38,10 @@ ui <- fluidPage(
                
                #The second tab is the search tab which was made using DT in the server.
                tabPanel("Search",
-                              titlePanel("Harvard Women's Lacrosse Alumni"),
-                              mainPanel(
-                                      DTOutput('search'), width = "100%", height = "auto"
-                                  )),
+                        titlePanel("Harvard Women's Lacrosse Alumni"),
+                        mainPanel(
+                            DTOutput('search'), width = "100%", height = "auto"
+                        )),
                
                #The third tab is the About page.
                tabPanel("About",
@@ -56,7 +57,7 @@ ui <- fluidPage(
                         developed an accurate and functional alumni directory on a much smaller scale - for the 
                         Harvard Women's Lacrosse Program.
                         "),
-                                      
+                        
                         # The br() function adds white space to the app.
                         # Data Collection Explanation
                         br(),
@@ -91,7 +92,7 @@ ui <- fluidPage(
                            table created with DT, allows for people to input whatever terms they would like into the search bar, 
                            and produces any rows of information containing the relevant search term."),
                         br(),
-
+                        
                         h4("About Me: Grace Rotondo"),
                         p("I am a junior at Harvard College studying Psychology and Economics. I am also a 
                             member of the Women's Lacrosse Team, The Student-Athlete Advisory Committee, and Harvard 
@@ -104,14 +105,14 @@ ui <- fluidPage(
                         directory is not accurate, there is a way for users to still find accurate information somewhere. If 
                         you are a Harvard Women's Lacrosse alum or a member of the current team and don't see your information 
                         in this directory, or if you would like to update your information, please fill out", 
-                        tags$a("this form.", href = "https://forms.gle/Robh4N3u7dMDZ7JX9")), 
-                         
+                          tags$a("this form.", href = "https://forms.gle/Robh4N3u7dMDZ7JX9")), 
+                        
                         br(),
                         hr(),
                         # Repository Link
                         h5("Github Repository: https://github.com/garotondo/WLAX_Directory"))))
-                    
-                    
+
+
 #The server portion of the app, which takes the inputs and produces outputs
 server <- function(input, output, session) {
     
@@ -122,16 +123,16 @@ server <- function(input, output, session) {
                    preferred_email_address, linked_in) 
         
         colnames(table_data) <- c("Name", "Home City", "Home State", "Graduation Year", 
-                         "House", "Concentration", "Employer", "Role", "Industry", "Email", 
-                         "LinkedIn")
+                                  "House", "Concentration", "Employer", "Role", "Industry", "Email", 
+                                  "LinkedIn")
         table_data %>% 
             datatable(extensions = c('Responsive', 'Buttons'), options = list(
                 dom = 'Bfrtip',
                 buttons = c('copy', 'excel', 'pdf')
             ), rownames = FALSE)
-        })
+    })
     
-
+    
     #Create the points
     points <- eventReactive(input$recalc, {
         cbind(rnorm(40) * 2 + 13, rnorm(40) + 48)
@@ -140,21 +141,21 @@ server <- function(input, output, session) {
     #Create the map ouput using leaflet
     output$mymap <- renderLeaflet({
         mapStates = maps::map("state", fill = TRUE, plot = FALSE)
-            leaflet(data = mapStates) %>% 
+        leaflet(data = mapStates) %>% 
             addTiles() %>%
             addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
         
         leaflet(data = mapStates) %>%
-        addProviderTiles(providers$Stamen.TonerLite,
-                         options = providerTileOptions(noWrap = TRUE)
-        ) %>%
-        addTiles() %>%
-        # Making sure the map has the shapes of the states, is colorful, and has markers.
-        addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE) %>%
-        addMarkers(data = full_data, ~lng, ~lat, popup = ~as.character(name.x))
-})
+            addProviderTiles(providers$Stamen.TonerLite,
+                             options = providerTileOptions(noWrap = TRUE)
+            ) %>%
+            addTiles() %>%
+            # Making sure the map has the shapes of the states, is colorful, and has markers.
+            addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE) %>%
+            addMarkers(data = full_data, ~lng, ~lat, popup = ~as.character(name.x))
+    })
 }
 
-                             
+
 # Run the application 
 shinyApp(ui = ui, server = server)
