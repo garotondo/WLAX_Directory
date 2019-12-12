@@ -49,7 +49,7 @@ ui <- fluidPage(
                         
                         hr(),
                         h4("Overview"),
-                        h5("'If your not Networking, you're doing Harvard wrong.' - David Kane"),
+                        h5("If you're not Networking, you're doing Harvard wrong. ~ David Kane"),
                         p("Networking is one of the most important skills a person can develop while at Harvard, 
                         and in life. Grades are important, your network of people is what is going to help you 
                         ultimately land a job and launch a career after college. Though this is the case, I found 
@@ -64,13 +64,14 @@ ui <- fluidPage(
                         h4("Data Collection"), 
                         p("To develop the directory, I used five sources of data: 1) an excel spreadsheet from the 
                         Harvard Varsity Club that included contact information of alums listed in the Varsity Club's 
-                        records; 2) Names of the Varsity Letterwinners of Harvard Women's Lacrosse, from 
-                        <https://www.gocrimson.com/sports/wlax/history/letterwinners>; 3) House and Concentration 
-                        information from the official Harvard Alumni Directory; 4) LinkedIn profiles; and 5) Coordinates 
-                        of US cities to be used for the map, from <https://simplemaps.com/data/us-cities>. I personally 
+                        records; 2) Names of the Varsity Letterwinners of Harvard Women's Lacrosse, from", 
+                        tags$a("GoCrimson.com;", href = "https://www.gocrimson.com/sports/wlax/history/letterwinners"), 
+                        "3) House and Concentration information from the official Harvard Alumni Directory; 4) LinkedIn 
+                        profiles; and 5) Coordinates of US cities to be used for the map, from the", 
+                        tags$a("United States Cities Database.", href = "https://simplemaps.com/data/us-cities"),"I personally 
                         researched and collected the data from the second, third, and fourth sources to compile my own 
-                        excel spreadsheet, named *wlax*. I wanted to manually research individuals' LinkedIn accounts 
-                        to include in *wlax* to ensure that they were accurate matches to the alum profiles so that if 
+                        excel spreadsheet, named wlax. I wanted to manually research individuals' LinkedIn accounts 
+                        to include in wlax to ensure that they were accurate matches to the alum profiles so that if 
                         the given emails (by the Varsity Club) were not accurate, users would have the option to reach 
                         out to an alum through LinkedIn. After manually collecting the data, I cleaned it and joined it 
                         to the Varsity Club dataset. From there, I joined the US cities' coordinates data to the full 
@@ -97,7 +98,7 @@ ui <- fluidPage(
                         h4("About Me: Grace Rotondo"),
                         p("I am a junior at Harvard College studying Psychology and Economics. I am also a 
                             member of the Women's Lacrosse Team, the Student-Athlete Advisory Committee, and Harvard 
-                            Undergraduate Women in Business. Contact me at: grotondo@college.harvard.edu."),
+                            Undergraduate Women in Business. Contact me at: grotondo@college.harvard.edu"),
                         br(),
                         
                         #Note at the bottom includes a link to a form that alums
