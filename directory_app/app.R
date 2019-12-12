@@ -54,9 +54,8 @@ ui <- fluidPage(
                         and in life. Grades are important, your network of people is what is going to help you 
                         ultimately land a job and launch a career after college. Though this is the case, I found 
                         that Harvard's alumni resources are out-of-date and unreliable. To solve this problem, I 
-                        developed an accurate and functional alumni directory on a much smaller scale - for the 
-                        Harvard Women's Lacrosse Program.
-                        "),
+                        developed an accurate and functional alumni directory on a much for the 
+                        Harvard Women's Lacrosse Program."),
                         
                         # The br() function adds white space to the app.
                         # Data Collection Explanation
