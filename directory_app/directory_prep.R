@@ -75,14 +75,12 @@ full_data <- left_join(data_1, coords, by = c('home_city'='city', 'home_state'='
          area_code, number, phone_number_1, company, role, industry, work_city, 
          work_state, linked_in)
 
-
-
-
 #Using leaflet to create the map. This code will go directly into the shiny
 #server.
 library(maps)
 mapStates = maps::map("state", fill = TRUE, plot = FALSE)
-map <- leaflet(data = mapStates) %>% addTiles() %>%
+map <- leaflet(data = mapStates) %>% 
+  addTiles() %>%
   addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
 
 
