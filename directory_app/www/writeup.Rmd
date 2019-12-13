@@ -1,0 +1,30 @@
+---
+title: "Fixing the Flaws of Networking"
+subtitle: "An Alumni Directory of the Harvard Women's Lacrosse Program"
+author: "Grace Rotondo"
+date: "December 13, 2019"
+output: pdf_document
+geometry: margin=1in
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(pdftools)
+library(tidyverse)
+```
+
+
+## Abstract ##
+
+Networking is one of the most important skills a person can develop in life. Grades are important; however your network of people is what is going to help you ultimately land a job and launch a career after college. In my own job search, I found that Harvard's alumni resources are out-of-date and unreliable. To solve this problem, I developed an accurate and functional alumni directory on a much for the Harvard Women's Lacrosse Program. I compiled data using several Harvard resources as well as LinkedIn. Through this process, I found that Harvard Women's Lacrosse almni hold many powerful positions.
+
+\newpage
+
+## Background and Significance ##
+Networking is one of the most important skills a person can develop in life. Grades are important; however your network of people is what is going to help you ultimately land a job and launch a career after college. As I was beginning my job search, I wanted to learn more about different industries so that I could better focus my search before applying anywhere. The best way to go about this would be to reach out to individuals in certain fields; however, it is more difficult to get a reply from someone with a cold introduction rather than a warm introduction. So, I shifted my focus toward alumni of the Women's Lacrosse team because I am a current member and know that our alumni are very supportive of the program and those involved in it. However, I found that there was no way to find out what our alumni were doing or where they were; the only way to contact an alum was to ask our coach for a specific person's contact information. Before doing so, though, we would need to know who the alum was and her background, and there was no way to know this information except through word of mouth. Thus, I found the need to create an alumni directory with accurate information.
+
+
+## Methods ##
+I began this project by reaching out to the Assistant Director of Communications, Jeff Weinstein, for the Harvard Varsity Club and the Assistant Director of the Harvard Varsity Club, Jess Perillo, to gain access to information about Harvard Women's Lacrosse alumni. Mr. Weinstein sent me the link to the [Varsity Letterwinners data](https://www.gocrimson.com/sports/wlax/history/letterwinners) and Ms. Perillo gave me access to an excel spreadsheet that included names and contact information of alumni. I used the Letterwinners data to create my own spreadsheet of names, titled "WLAX_LETTERWINNER_DATA_complete". 
+
+In this Letterwinners spreadsheet, I included several other variables that I felt would be useful when searching individuals in the database. These variables included: _Graduation Year,_ _Last Year Earned Varsity Letter,_ _House,_ _Concentration,_ _Secondary Concentration,_ _Citations,_ _Graduate School,_ _Company,_ _Role,_ _Industry,_ _Area,_ _LinkedIn,_ and _Website Other._ I found the information for the "Graduation Year" and "Last Year Earned Varsity Letter" from the Letterwinners website. The _Graduation Year_ variable corresponds to individuals' year of graduation and the _Last Year Earned Varsity Letter_ variable refers to the last year recorded of an individual playing lacrosse and earning a varsity letter. Though I initially found the information for these variables from the Letterwinners website, I discovered that some of the data in the Graduation Year variable was incorrect when I cross checked it with University records on the [Harvard Alumni Directory website](https://alumni.harvard.edu). Assuming the graduation records on the Harvard Alumni Directory are official and correct, I used the graduation years found on the Harvard Alumni Directory and documented them in the Letterwinners spreadsheet. Using the Harvard Alumni Directory again, I found the information for the _House_ and _Concentration_ variables. These variables were important to include because the housing system at Harvard plays a significant role in a student's Harvard experience, thus housing affiliation is a useful conenction point, and concentration information is valuable to know as another connection point.
