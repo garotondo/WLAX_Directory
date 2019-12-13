@@ -100,6 +100,11 @@ ui <- fluidPage(
                             Undergraduate Women in Business. Contact me at: grotondo@college.harvard.edu"),
                         br(),
                         
+                        #Embed the video link into the About Page
+                        h4("Project Video"),
+                        p("Here is a", tags$a("link", href = "https://youtu.be/OxUhK1O_Hko"), "to a video I created explaining the project."),
+                        br(),
+                        
                         #Note at the bottom includes a link to a form that alums
                         #can add their information to so that I can update the
                         #directory as needed.
@@ -109,8 +114,8 @@ ui <- fluidPage(
                         directory is not accurate, there is a way for users to still find accurate information somewhere. If 
                         you are a Harvard Women's Lacrosse alum or a member of the current team and don't see your information 
                         in this directory, or if you would like to update your information, please fill out", 
-                          tags$a("this form.", href = "https://forms.gle/Robh4N3u7dMDZ7JX9")), 
-                        
+                        tags$a("this form.", href = "https://forms.gle/Robh4N3u7dMDZ7JX9")), 
+                    
                         br(),
                         hr(),
                         # Repository Link

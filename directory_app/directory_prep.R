@@ -58,6 +58,16 @@ data_1 <- separate(data, area, into = c("city", "state"), sep = " (?=[^ ]+$)") %
          work_state = "state")
 
 #Load in coordinate data of US cities
+
+
+
+
+
+
+
+
+
+
 us_cities <- read_excel("~/Desktop/GOV1005 /Project/WLAX_Directory/directory_app/uscities.xlsx")
 
 #Clean us_cities data
