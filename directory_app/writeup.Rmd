@@ -10,13 +10,14 @@ geometry: margin=1in
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(pdftools)
-library(tidyverse)
+library(tinytex)
+library(png)
 ```
 
 
 ## Abstract ##
 
-Networking is one of the most important skills a person can develop in life. Grades are important; however your network of people is what is going to help you ultimately land a job and launch a career after college. In my own job search, I found that Harvard's alumni resources are out-of-date and unreliable. To solve this problem, I developed an accurate and functional alumni directory on a much for the Harvard Women's Lacrosse Program. I compiled data using several Harvard resources as well as LinkedIn. Through this process, I found that Harvard Women's Lacrosse almni hold many powerful positions.
+Networking is one of the most important skills a person can develop in life. Academic work is important; however, your network of people is what is going to help you ultimately land a job and launch a career after college. In my own job search, I found that Harvard's alumni resources are out-of-date and unreliable. To solve this problem, I developed an accurate and functional alumni directory of the Harvard Women's Lacrosse Program. I compiled data using graduation data from Harvard resources as well as career and contact data from LinkedIn and Google. The goal of this project was to create a platform for members of the Harvard Women's Lacrosse Program to find accurate alumni information and create a better connected alumni community.
 
 \newpage
 
@@ -32,3 +33,14 @@ In this Letterwinners spreadsheet, I included several other variables that I fel
 After compiling the Letterwinners data, I uploaded both datasets to RStudio and cleaned them. I then merged them using the command full_join() so that I would not lose any of the information; I named the new dataset _data_. From there, I needed to further clean the variables in the dataset to create a new dataset, _data_1_. The next step in preparing the Shiny web application was to find a dataset with coordinate information of cities in the United States. I chose to only find information regarding cities in the United States because the majority of the alumni was from cities in the United States. I found this dataset from the [United States Cities Database](https://simplemaps.com/data/us-cities). From this website, I downloaded the Excel file and imported it into R. I then selected the two variables I needed to correspond to the city and state variables in my greater dataset: _city_ascii,_ _state_id,_ _lat,_ and _lng_. I then renamed _city_ascii_ and _state_id_ _city_ and _state_, respectively. This preparation allowed me to then join the coordinate information with the greater dataset to create _full_data_, joining by the _home_city_ variable with the _city_ variable and the _home_state_ variable with the _state_ variable so that the coordinates would join by the correct cities and states.
 
 After creating the full dataset, I shifted my attention to the map creation. I used the Leaflet package and found code online that created an interactive map of the United States. This was in preparation for what I would input into the Shiny server. The final step in my Shiny preparation was making the _full_data_ dataset into an RDS file so that Shiny could use it.
+
+To create the Shiny App, I began by loading in the _full_data_ RDS file. When creating the ui, I made the opening tab the _Map_ tab, which corresponded to the Leaflet map created in the prep file and copied to the Shiny server. This map demonstrates the Home Locations of Alumni Based in the United States and allows users to zoom in and out of it and click on certain points that correspond to names of alumni's home locations. These points were specified in the addMarkers() argument in the map's code. The second tab panel I created in the ui is the directory or _Search_ tab. I created the duirectory using the DT package. I chose the following variables to include in the directory because they encompass enough information to find alumni without publishing confidential information such phone numbers: _Name,_ _Home City,_ _Home State,_ _Graduation Year,_ _House,_ _Concentration,_ _Employer_ (which is _company_ renamed), _Role,_ _Industry,_ _Email,_ and _LinkedIn._ The DT package allowed for me to create a table with my selected variables by which a user can filter with any search input he or she desires. With a certain search input, the table will output any rows that contain any information that corresponds to the search input. I then added extensions to the table that made it responsive to the width of the web page and created buttons that allow users to copy the information to Excel or print it - both extensions for aesthetic purpose. 
+
+![Here is the output of the map.](/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/map_screenshot.png )
+
+![Here is output of the directory, filtered by alumni working in finance.](/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/directory_screenshot.png )
+
+\newpage
+
+## Conclusion ##
+My goal for this project was to create a mechanism by which members of the Harvard Women's Lacrosse community can find accurate information of alumni and use it to reach out to and possibly reconnect with fellow alumni - to ultimately foster a more connected community for the Harvard Women's Lacrosse Program. The map allows for users to visualize where alumni are located and the directory allows for users to find information that they can use externally. I am excited for the implications of this project and I know that teammates are eager to have access to a platform that allows them to contact alumni more efficiently and effectively. 
