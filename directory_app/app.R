@@ -13,12 +13,6 @@ library(maps)
 library(shiny)
 library(shinythemes)
 
-
-#Create a directory and load in the two datasets. Make sure they are in the
-#right folder.
-
-full_data <- readRDS("data.rds")
-
 # Define UI for application to include 3 tabs.
 ui <- fluidPage(
     navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("cerulean"),
@@ -49,13 +43,11 @@ ui <- fluidPage(
                         
                         hr(),
                         h4("Overview"),
-                        h5("If you're not Networking, you're doing Harvard wrong. ~ David Kane"),
                         p("Networking is one of the most important skills a person can develop while at Harvard, 
                         and in life. Grades are important; however, your network of people is what is going to help you 
                         ultimately land a job and launch a career after college. Though this is the case, I found 
                         that Harvard's alumni resources are out-of-date and unreliable. To solve this problem, I 
-                        developed an accurate and functional alumni directory on a much for the 
-                        Harvard Women's Lacrosse Program."),
+                        developed an accurate and functional alumni directory for the Harvard Women's Lacrosse Program."),
                         
                         # The br() function adds white space to the app.
                         # Data Collection Explanation
@@ -96,11 +88,11 @@ ui <- fluidPage(
                         #Bio
                         h4("About Me: Grace Rotondo"),
                         p("I am a junior at Harvard College studying Psychology and Economics. I am also a 
-                            member of the Women's Lacrosse Team, the Student-Athlete Advisory Committee, and Harvard 
-                            Undergraduate Women in Business. Contact me at: grotondo@college.harvard.edu"),
+                            member of the Varsity Women's Lacrosse Team, the Student-Athlete Advisory Committee, and Harvard 
+                            Undergraduate Women in Business. You can contact me at: grotondo@college.harvard.edu."),
                         br(),
                         
-                        #Embed the video link into the About Page
+                        #Embed the video link into the About Page.
                         h4("Project Video"),
                         p("Here is a", tags$a("link", href = "https://youtu.be/OxUhK1O_Hko"), "to a video I created explaining the project."),
                         br(),
@@ -141,11 +133,6 @@ server <- function(input, output, session) {
             ), rownames = FALSE)
     })
     
-    
-    #Create the points
-    points <- eventReactive(input$recalc, {
-        cbind(rnorm(40) * 2 + 13, rnorm(40) + 48)
-    }, ignoreNULL = FALSE)
     
     #Create the map ouput using leaflet
     output$mymap <- renderLeaflet({

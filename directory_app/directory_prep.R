@@ -58,16 +58,6 @@ data_1 <- separate(data, area, into = c("city", "state"), sep = " (?=[^ ]+$)") %
          work_state = "state")
 
 #Load in coordinate data of US cities
-
-
-
-
-
-
-
-
-
-
 us_cities <- read_excel("~/Desktop/GOV1005 /Project/WLAX_Directory/directory_app/uscities.xlsx")
 
 #Clean us_cities data
@@ -94,5 +84,3 @@ map <- leaflet(data = mapStates) %>%
   addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
 
 
-#write RDS files to prep for data in shiny
-write_rds(full_data, "/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/data.rds")
