@@ -44,10 +44,11 @@ ui <- fluidPage(
                         hr(),
                         h4("Overview"),
                         p("Networking is one of the most important skills a person can develop while at Harvard, 
-                        and in life. Grades are important; however, your network of people is what is going to help you 
-                        ultimately land a job and launch a career after college. Though this is the case, I found 
-                        that Harvard's alumni resources are out-of-date and unreliable. To solve this problem, I 
-                        developed an accurate and functional alumni directory for the Harvard Women's Lacrosse Program."),
+                        and in life. Academic credentials are important; however, your network of people is what 
+                        is going to help you ultimately land a job and launch a career after college. Though this 
+                        is the case, I found that Harvard's alumni resources are out-of-date and unreliable. To solve 
+                        this problem, I developed an accurate and functional alumni directory for the Harvard Women's 
+                        Lacrosse Program."),
                         
                         # The br() function adds white space to the app.
                         # Data Collection Explanation
