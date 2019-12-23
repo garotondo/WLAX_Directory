@@ -45,6 +45,7 @@ alumnae_clean <- alumnae %>%
 #of the industries (not in a pair).
 data <- full_join(alumnae_clean, wlax_clean, by = c('last_name', 'graduation_year')) %>%
   mutate(industry = str_split(industry, ",")) %>% 
+  mutate(graduate_school = str_split(graduate_school, ";")) %>% 
   select(-first_name.y, -maiden_name.y, -name.y, -count.y, 
          -secondary_concentration, -citations, -other_website)
 
