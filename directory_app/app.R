@@ -1,5 +1,4 @@
 library(readxl)
-library(purrr)
 library(sf)
 library(fs)
 library(DT)
@@ -10,6 +9,7 @@ library(janitor)
 library(tidyverse)
 library(usmap)
 library(maps)
+library(purrr)
 library(shiny)
 library(shinythemes)
 
@@ -121,12 +121,12 @@ server <- function(input, output, session) {
     output$search <- renderDT({
         table_data <- full_data %>% 
             select(name.x, home_city, home_state, graduation_year, 
-                   house, concentration, company, role, industry,
-                   preferred_email_address, linked_in) 
+                   house, concentration, company, role,
+                   industry, preferred_email_address, linked_in) 
         
         colnames(table_data) <- c("Name", "Home City", "Home State", "Graduation Year", 
-                                  "House", "Concentration", "Employer", "Role", "Industry", "Email", 
-                                  "LinkedIn")
+                                  "House", "Concentration", "Employer", 
+                                  "Role", "Industry", "Email", "LinkedIn")
         table_data %>% 
             datatable(extensions = c('Responsive', 'Buttons'), options = list(
                 dom = 'Bfrtip',

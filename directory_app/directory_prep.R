@@ -1,5 +1,4 @@
 library(readxl)
-library(purrr)
 library(sf)
 library(fs)
 library(DT)
@@ -10,11 +9,12 @@ library(janitor)
 library(tidyverse)
 library(usmap)
 library(maps)
+library(purrr)
 
 #Create a directory and load in the two datasets. Make sure they are in the
 #right folder.
-wlax <- read_excel("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/WLAX_LETTERWINNER_DATA_complete.xlsx")
-alumnae <- read_excel("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/FoHL_ALumnae_List_10.3.19_final.xlsx")
+wlax <- read_excel("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/WLAX_LETTERWINNER_DATA.xlsx")
+alumnae <- read_excel("/Users/gracerotondo/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/ALumnae_List.xlsx")
 
 #Name the datasets and rename column names to establish uniform data. Both
 #datasets have the same variables, just with different titles.
@@ -59,7 +59,7 @@ data_1 <- separate(data, area, into = c("city", "state"), sep = " (?=[^ ]+$)") %
          work_state = "state")
 
 #Load in coordinate data of US cities
-us_cities <- read_excel("~/Desktop/GOV1005 /Project/WLAX_Directory/directory_app/uscities.xlsx")
+us_cities <- read_excel("~/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/uscities.xlsx")
 
 #Clean us_cities data
 coords <- us_cities %>% 
@@ -73,8 +73,8 @@ coords <- us_cities %>%
 full_data <- left_join(data_1, coords, by = c('home_city'='city', 'home_state'='state')) %>% 
   select(name.x, first_name.x, maiden_name.x, last_name, graduation_year, house, 
          concentration, home_city, home_state, lat, lng, preferred_email_address, 
-         area_code, number, phone_number_1, company, role, industry, work_city, 
-         work_state, linked_in)
+         area_code, number, phone_number_1, graduate_school, company, role, industry, 
+         work_city, work_state, linked_in)
 
 #Using leaflet to create the map. This code will go directly into the shiny
 #server.
