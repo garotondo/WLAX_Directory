@@ -6,12 +6,12 @@ library(leaflet)
 library(raster)
 library(sp)
 library(janitor)
-library(tidyverse)
 library(usmap)
 library(maps)
 library(purrr)
 library(shiny)
 library(shinythemes)
+library(tidyverse)
 
 
 # Define UI for application to include 3 tabs.

@@ -6,10 +6,10 @@ library(leaflet)
 library(raster)
 library(sp)
 library(janitor)
-library(tidyverse)
 library(usmap)
 library(maps)
 library(purrr)
+library(tidyverse)
 
 #Create a directory and load in the two datasets. Make sure they are in the
 #right folder.
@@ -75,9 +75,6 @@ full_data <- left_join(data_1, coords, by = c('home_city'='city', 'home_state'='
          concentration, home_city, home_state, lat, lng, preferred_email_address, 
          area_code, number, phone_number_1, graduate_school, company, role, industry, 
          work_city, work_state, linked_in)
-
-#Create a new .RData file
-save(full_data, file = "directory_app/data.RData")
 
 #Using leaflet to create the map. This code will go directly into the shiny
 #server.
