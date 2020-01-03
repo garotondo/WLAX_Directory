@@ -13,6 +13,7 @@ library(purrr)
 library(shiny)
 library(shinythemes)
 
+
 # Define UI for application to include 3 tabs.
 ui <- fluidPage(
     navbarPage("Harvard Women's Lacrosse Alumni", theme = shinytheme("cerulean"),
