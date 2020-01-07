@@ -74,7 +74,11 @@ full_data <- left_join(data_1, coords, by = c('home_city'='city', 'home_state'='
   select(name.x, first_name.x, maiden_name.x, last_name, graduation_year, house, 
          concentration, home_city, home_state, lat, lng, preferred_email_address, 
          area_code, number, phone_number_1, graduate_school, company, role, industry, 
-         work_city, work_state, linked_in)
+         work_city, work_state, linked_in) %>% 
+  filter(name.x != "NA")
+
+#Make the dataframe an rds file that can be used in the shiny app.
+write_rds(full_data, "directory_app/data.rds")
 
 #Using leaflet to create the map. This code will go directly into the shiny
 #server.

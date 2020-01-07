@@ -1,7 +1,6 @@
 library(readxl)
 library(sf)
 library(fs)
-library(DT)
 library(leaflet)
 library(raster)
 library(sp)
@@ -9,10 +8,13 @@ library(janitor)
 library(usmap)
 library(maps)
 library(purrr)
+library(DT)
 library(shiny)
 library(shinythemes)
 library(tidyverse)
 
+#Load in the cleaned data.
+alumni <- read_rds("data.rds")
 
 # Define UI for application to include 3 tabs.
 ui <- fluidPage(
@@ -120,10 +122,10 @@ ui <- fluidPage(
 server <- function(input, output, session) {
     
     output$search <- renderDT({
-        table_data <- full_data %>% 
+        table_data <- alumni %>% 
             select(name.x, home_city, home_state, graduation_year, 
                    house, concentration, company, role,
-                   industry, preferred_email_address, linked_in) 
+                   industry, preferred_email_address, linked_in)   
         
         colnames(table_data) <- c("Name", "Home City", "Home State", "Graduation Year", 
                                   "House", "Concentration", "Employer", 
@@ -150,7 +152,7 @@ server <- function(input, output, session) {
             addTiles() %>%
             # Making sure the map has the shapes of the states, is colorful, and has markers.
             addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE) %>%
-            addMarkers(data = full_data, ~lng, ~lat, popup = ~as.character(name.x))
+            addMarkers(data = alumni, ~lng, ~lat, popup = ~as.character(name.x))
     })
 }
 
