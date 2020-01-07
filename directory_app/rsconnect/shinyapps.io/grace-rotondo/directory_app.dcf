@@ -5,9 +5,9 @@ account: grace-rotondo
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1508700
-bundleId: 2710974
+bundleId: 2710985
 url: https://grace-rotondo.shinyapps.io/directory_app/
-when: 1578367620.31623
+when: 1578367979.70515
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: ~$ALumnae_List.xlsx|~$WLAX_LETTERWINNER_DATA.xlsx

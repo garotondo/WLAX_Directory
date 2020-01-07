@@ -124,11 +124,11 @@ server <- function(input, output, session) {
     output$search <- DT::renderDT({
         table_data <- alumni %>% 
             select(name.x, home_city, home_state, graduation_year, 
-                   house, concentration, company, role,
+                   house, concentration, graduate_school, company, role,
                    industry, preferred_email_address, linked_in) 
         
         colnames(table_data) <- c("Name", "Home City", "Home State", "Graduation Year", 
-                                  "House", "Concentration", "Employer", 
+                                  "House", "Concentration", "Graduate School", "Employer", 
                                   "Role", "Industry", "Email", "LinkedIn")
         table_data %>% 
             datatable(extensions = c('Responsive', 'Buttons'), options = list(
