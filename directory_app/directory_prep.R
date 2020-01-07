@@ -28,6 +28,7 @@ wlax_clean <- wlax %>%
   group_by(last_name, graduation_year) %>%
   mutate(count = sequence(n()))
 
+
 alumnae_clean <- alumnae %>% 
   dplyr::select("Name", "First Name", "Maiden Name", "Last Name", "Graduation Year", 
                 "Home City", "Home State", "Preferred Email Address", 
@@ -38,6 +39,7 @@ alumnae_clean <- alumnae %>%
   mutate(count = sequence(n())) %>% 
   ungroup() %>% 
   mutate(graduation_year = as.numeric(graduation_year))
+
 
 
 #Merge the datasets and split the industries. This is necessary so that
@@ -77,8 +79,10 @@ full_data <- left_join(data_1, coords, by = c('home_city'='city', 'home_state'='
          work_city, work_state, linked_in) %>% 
   filter(name.x != "NA")
 
+
 #Make the dataframe an rds file that can be used in the shiny app.
 write_rds(full_data, "directory_app/data.rds")
+
 
 #Using leaflet to create the map. This code will go directly into the shiny
 #server.
@@ -87,6 +91,7 @@ mapStates = maps::map("state", fill = TRUE, plot = FALSE)
 map <- leaflet(data = mapStates) %>% 
   addTiles() %>%
   addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
+
 
 
 

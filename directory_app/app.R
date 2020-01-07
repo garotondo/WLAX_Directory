@@ -121,11 +121,11 @@ ui <- fluidPage(
 #The server portion of the app, which takes the inputs and produces outputs
 server <- function(input, output, session) {
     
-    output$search <- renderDT({
+    output$search <- DT::renderDT({
         table_data <- alumni %>% 
             select(name.x, home_city, home_state, graduation_year, 
                    house, concentration, company, role,
-                   industry, preferred_email_address, linked_in)   
+                   industry, preferred_email_address, linked_in) 
         
         colnames(table_data) <- c("Name", "Home City", "Home State", "Graduation Year", 
                                   "House", "Concentration", "Employer", 
@@ -135,8 +135,8 @@ server <- function(input, output, session) {
                 dom = 'Bfrtip',
                 buttons = c('copy', 'excel', 'pdf')
             ), rownames = FALSE)
-    })
-    
+        
+    }, escape = FALSE)
     
     #Create the map ouput using leaflet
     output$mymap <- renderLeaflet({
