@@ -89,3 +89,4 @@ map <- leaflet(data = mapStates) %>%
   addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
 
 
+
