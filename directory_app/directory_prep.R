@@ -84,13 +84,7 @@ full_data <- left_join(data_1, coords, by = c('home_city'='city', 'home_state'='
 write_rds(full_data, "directory_app/data.rds")
 
 
-#Using leaflet to create the map. This code will go directly into the shiny
-#server.
-library(maps)
-mapStates = maps::map("state", fill = TRUE, plot = FALSE)
-map <- leaflet(data = mapStates) %>% 
-  addTiles() %>%
-  addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
+
 
 
 
