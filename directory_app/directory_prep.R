@@ -81,7 +81,7 @@ full_data <- left_join(data_1, coords, by = c('home_city'='city', 'home_state'='
 
 
 #Make the dataframe an rds file that can be used in the shiny app.
-write_rds(full_data, "directory_app/data.rds")
+write_rds(full_data, "~/Desktop/GOV1005\ /Project/WLAX_Directory/directory_app/data.rds")
 
 
 
